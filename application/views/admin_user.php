@@ -75,6 +75,7 @@
 				    		<option value="CUTTING">CUTTING</option>
 				    		<option value="QA">QA</option>
 				    		<option value="VSE">VSE</option>
+				    		<option value="LAB">LAB</option>
 				    	</select>
 				    </div>
 				  </div>				 				  

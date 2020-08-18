@@ -1,3 +1,9 @@
+<style>	
+   .list-group-item{
+        padding: 5px;
+        font-size: 11px;
+    }
+</style>
  <h4 class="page-title">Request Mask</h4>
  <div class="row">
  	<div class="col-lg-12"> 		
@@ -7,6 +13,7 @@
 	          		<h6 class="m-0 font-weight-bold text-primary">Data Request</h6>	        		
 	        	</div>
 	          	<div class="float-right">
+	          		<button type="button" class="btn btn-success btn-sm" onclick="sent()"><i class="la la-check"></i> Sent</button>	          			
 	          		<button type="button" class="btn btn-primary btn-sm" onclick="xls()"><i class="la la-file-excel-o"></i> Export</button>
 	          	</div>
 	        </div>
@@ -20,9 +27,9 @@
 								<th>SO</th>
 								<th>Line</th>
 								<th>Datetime</th>
-								<th>Style</th>
-								<th>Colour</th>
-								<th>Status</th>
+								<th>Estimate</th>
+								<th>Last Status</th>
+								<th>Approved</th>
 								<th>#</th>
 	        				</tr>
 	        			</thead>
@@ -33,43 +40,62 @@
 								<td><?php echo $data->po ?></td>
 								<td><?php echo $data->so ?></td>
 								<td><?php echo $data->line ?></td>
-								<td><?php echo date('d-M', strtotime($data->date)).'/'.date('H:i', strtotime($data->time)) ?></td>
-								<td><?php echo $data->style ?></td>
-								<td><?php echo $data->colour ?></td>
+								<td><?php echo date('d-M', strtotime($data->date)).' / '.date('H:i', strtotime($data->time)) ?></td>
+								<td
+								<?php if(date('Y-m-d H:i:s') > date('Y-m-d H:i:s', strtotime($data->time_estimated))){echo "class='bg-danger text-white'";} ?>
+								><?php echo date('d-M / H:i', strtotime($data->time_estimated)) ?></td>								
 								<td>
-									<?php if ($data->check_qa == 0) {?>
+                        			<?php foreach ($data->getstatus as $datastatus) {
+                            		echo "<span class='badge badge-info'>".$datastatus->status."</span>";
+                        			} ?>               
+                    			</td>
+                    			<td class="text-center">
+                    				<?php if ($data->check_qa == 0) {?>
 										<span class="badge badge-danger">QA</span>										
 									<?php }else{ ?>
-										<span class="badge badge-success"><i class="la la-check"></i> QA</span>
+										<span class="badge badge-success">QA</span>
 									<?php } ?>
+									<?php if ($data->check_lab == 0) {?>
+										<span class="badge badge-danger">Lab</span>										
+									<?php }else{ ?>
+										<span class="badge badge-success">Lab</span>
+									<?php } ?>
+									<p></p>
 									<?php if ($data->check_vse == 0) {?>
 										<span class="badge badge-danger">VSE</span>
 									<?php }else{ ?>
-										<span class="badge badge-success"><i class="la la-check"></i> VSE</span>
+										<span class="badge badge-success">VSE</span>
 									<?php } ?>
 									<?php if ($data->check_cutting == 0) {?>
-										<span class="badge badge-danger">CUTTING</span>
+										<span class="badge badge-danger">Cutting</span>
 									<?php }else{ ?>
-										<span class="badge badge-success"><i class="la la-check"></i> CUTTING</span>
-									<?php } ?>
-								</td>
+										<span class="badge badge-success">Cutting</span>
+									<?php } ?>                            		
+                    			</td>
 								<td>
 									<?php 
 									if ($data->check_qa == 0 && $this->session->userdata('level') == "QA") {
-										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-primary btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
+										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
 									}?>
 									<?php 
-									if ($data->check_cutting == 0 && $this->session->userdata('level') == "CUTTING") {
-										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-primary btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
+									if ($data->check_cutting == 0 && $data->check_qa == 1 && $this->session->userdata('level') == "CUTTING") {
+										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";		
 									}?>
 									<?php 
-									if ($data->check_vse == 0 && $this->session->userdata('level') == "VSE") {
-										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-primary btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
+									if ($data->check_lab == 0 && $data->check_qa == 1 && $this->session->userdata('level') == "LAB") {
+										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";										
 									}?>
-
+									<?php 
+									if ($data->check_vse == 0 && $data->check_qa == 1 && $this->session->userdata('level') == "VSE") {
+										echo "<a href='".base_url('admin/validate_mask/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
+									}?>
+									<button onclick="status_get('<?php echo $data->order_id ?>','<?php echo $data->po ?>')" class="btn btn-info btn-sm" data-original-title="Add Status" data-toggle="tooltip"><i class="la la-pencil-square" ></i></button>
 									<button type="button" onclick="detail('<?php echo $data->order_id ?>')" class="btn btn-warning btn-sm text-white" data-original-title="Detail" data-toggle="tooltip"><i class="la la-search-plus"></i>
 									</button>
-									<a href="<?php echo base_url('admin/download_mask/'.$data->order_id) ?>" target="_blank" class="btn btn-success btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
+									<?php if ($this->session->userdata('level')=="CUTTING") { ?>
+										<button onclick="send_item('<?php echo $data->order_id ?>','<?php echo $data->po ?>')" class="btn btn-success btn-sm" data-original-title="Send" data-toggle="tooltip"><i class="la la-cart-arrow-down"></i></button>
+									<?php } ?>
+									<a href="<?php echo base_url('admin/download_mask/'.$data->order_id) ?>" target="_blank" class="btn btn-secondary btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
 								</td>
 	        				</tr>
 	        				<?php } ?>
@@ -80,6 +106,85 @@
       	</div>
  	</div>
  </div>
+
+<div class="modal fade bd-example-modal-lg" id="sent" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="max-width: 960px;">
+    <div class="modal-content">
+    	<div class="modal-header">
+			<h5 class="modal-title">Sent Record</h5>
+		</div>
+		<div class="modal-body">			
+	        	<div class="table-responsive">
+	        		<table class="table table-bordered" id="example2">
+	        			<thead>
+	        				<tr>
+	        					<th width="5%">No</th>
+								<th>PO</th>
+								<th>SO</th>
+								<th>Line</th>
+								<th>Datetime</th>
+								<th>Estimate</th>
+								<th>Last Status</th>
+								<th>Approved</th>
+								<th>#</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+	        				<?php $no=1; foreach ($sent as $data) { ?>
+	        				<tr>
+	        					<td><?php echo $no++ ?></td>
+								<td><?php echo $data->po ?></td>
+								<td><?php echo $data->so ?></td>
+								<td><?php echo $data->line ?></td>
+								<td><?php echo date('d-M', strtotime($data->date)).' / '.date('H:i', strtotime($data->time)) ?></td>
+								<td
+								<?php if(date('Y-m-d H:i:s') > date('Y-m-d H:i:s', strtotime($data->time_estimated))){echo "class='bg-danger text-white'";} ?>
+								><?php echo date('d-M / H:i', strtotime($data->time_estimated)) ?></td>								
+								<td>
+                        			<?php foreach ($data->getstatus as $datastatus) {
+                            		echo "<span class='badge badge-info'>".$datastatus->status."</span>";
+                        			} ?>               
+                    			</td>
+                    			<td class="text-center">
+                    				<?php if ($data->check_qa == 0) {?>
+										<span class="badge badge-danger">QA</span>										
+									<?php }else{ ?>
+										<span class="badge badge-success">QA</span>
+									<?php } ?>
+									<?php if ($data->check_lab == 0) {?>
+										<span class="badge badge-danger">Lab</span>										
+									<?php }else{ ?>
+										<span class="badge badge-success">Lab</span>
+									<?php } ?>
+									<p></p>
+									<?php if ($data->check_vse == 0) {?>
+										<span class="badge badge-danger">VSE</span>
+									<?php }else{ ?>
+										<span class="badge badge-success">VSE</span>
+									<?php } ?>
+									<?php if ($data->check_cutting == 0) {?>
+										<span class="badge badge-danger">Cutting</span>
+									<?php }else{ ?>
+										<span class="badge badge-success">Cutting</span>
+									<?php } ?>                            		
+                    			</td>
+								<td>
+									
+									
+									<button type="button" onclick="detail('<?php echo $data->order_id ?>')" class="btn btn-warning btn-sm text-white" data-original-title="Detail" data-toggle="tooltip"><i class="la la-search-plus"></i>
+									</button>
+									<a href="<?php echo base_url('admin/download_mask/'.$data->order_id) ?>" target="_blank" class="btn btn-secondary btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
+								</td>
+	        				</tr>
+	        				<?php } ?>
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        
+		</div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade " id="detailmodal">
 	<div class="modal-dialog modal-lg">
@@ -188,27 +293,35 @@
   					</tbody>
   				</table><hr>
   				<div class="row clearfix row-relative">
-  					<div class="col-md-3 col-lg-3">
+  					<div class="col-md-3 col-lg-3">  						
 		  				 Total Main Panel : <span class="tpanel text-danger"></span><br>					      
   					</div>
   					<div class="col-md-3 col-lg-3 col-border">
-  						<div class="text-center">
-  							<p>Check by QA</p>
-  							<img src="" class="img-qa" height="70">
-  						</div>
-  					</div>
-  					<div class="col-md-3 col-lg-3 col-border">
-  						<div class="text-center">
-  							<p>Check by VSE</p>
-  							<img src="" class="img-vse" height="70">
-  						</div>
-  					</div>
-  					<div class="col-md-3 col-lg-3 col-border">
-  						<div class="text-center">
-  							<p>Check by CUTTING</p>
-  							<img src="" class="img-cutting" height="70">
-  						</div>
-  					</div>
+		                <center>Status</center>                
+		                <ul class="list-group status-mask" style="padding-left: 10px;">
+		                    
+		                </ul>
+		            </div>
+		            <div class="col-md-6 col-lg-6 col-border">
+		                <div class="row">
+		                    <div class="col">
+		                        <div class="text-center">                            
+		                            <p>Check by QA</p>
+		                            <img src="" class="img-qa" height="70"><hr>
+		                            <p>Check by VSE</p>
+		                            <img src="" class="img-vse" height="70">                        
+		                        </div>
+		                    </div>
+		                    <div class="col col-border">
+		                        <div class="text-center">                                                    
+		                            <p>Check by LAB</p>
+		                            <img src="" class="img-lab" height="70"><hr>
+		                            <p>Check by CUTTING</p>
+		                            <img src="" class="img-cutting" height="70"> 
+		                        </div>                       
+		                    </div>                    
+		                </div>                
+		            </div>  
   				</div>
 			</div>
 			<div class="modal-footer">
@@ -244,7 +357,47 @@
 	</div>
 </div>
 
+<div class="modal fade " id="send">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h6 class="modal-title sendtitle"></h6>
+			</div>
+			<div class="modal-body">
+			<?php echo form_open('', array('class' => 'frmsent')); ?>
+				<div class="alert alert-warning text-center" style="padding-left: 20px;">
+					This issue has been cleared and move to sent request record.<br>
+					<b>Are you sure to fix this issue ?</b>  
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary btn-sm"><i class="la la-check"></i> Send Item</button>				
+			</div>
+			<?php echo form_close(); ?>
+		</div>
+	</div>
+</div>
 
+<div class="modal fade " id="status">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h6 class="modal-title statustitle"></h6>
+			</div>
+			<div class="modal-body">
+				<ul class="list-group status-mask2" style="padding-left: 10px;"></ul>
+				<?php echo form_open('', array('class' => 'statusform')); ?>
+				<div class="form-group text-center">
+					<input type="hidden" name="vid">
+					<textarea name="status" class="form-control" placeholder="Add Status"></textarea><br>
+					<button type="submit" class="btn btn-success btn-sm"><i class="la la-plus"></i> Add Status</button>
+				</div>
+			<?php echo form_close(); ?>				
+			</div>			
+		</div>
+	</div>
+</div>
 
 <script>
 	function detail(id) {
@@ -265,6 +418,7 @@
             	$('.colour').text(data.colour);
             	$('.shift').text(data.shift);
             	$('.estimated').text(data.time_estimated);
+            	$('.remarks').text("Remarks: "+data.remarks);            	            	
             	if (data.check_qa == 1) {
             		$('.img-qa').attr('src','<?php echo base_url('dist/img/approved.png') ?>')
             	}else{
@@ -274,6 +428,11 @@
             		$('.img-vse').attr('src','<?php echo base_url('dist/img/approved.png') ?>')
             	}else{
             		$('.img-vse').attr('src','')            		
+            	}
+            	if (data.check_lab == 1) {
+            		$('.img-lab').attr('src','<?php echo base_url('dist/img/approved.png') ?>')
+            	}else{
+            		$('.img-lab').attr('src','')            		
             	}
             	if (data.check_cutting == 1) {
             		$('.img-cutting').attr('src','<?php echo base_url('dist/img/approved.png') ?>')
@@ -321,9 +480,63 @@
                 alert('Error get data from ajax');
               }
         });
+
+        $.ajax({
+            url : "<?php echo site_url('index.php/welcome/status_mask')?>/"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data){
+                var html = '';
+                var i;               
+                for(i=0; i<data.length; i++){   
+            html += '<li class="list-group-item list-group-item-action list-group-item-success d-flex justify-content-between align-items-center">'+data[i].status+
+                    '<span class="badge badge-primary badge-pill">'+data[i].time+'</span>'+
+                    '</li>';                                    
+                }
+                $('.status-mask').html(html);        
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+                alert('Error get data from ajax');
+              }
+        });
 	}
 
 	function xls() {
 		$('#export').modal('show');
+	}
+
+	function sent() {
+		$('#sent').modal('show');
+	}
+
+	function send_item(id,po) {
+		$('.frmsent').attr('action','<?php echo base_url('admin/senditem/order_mask/') ?>'+id);
+		$('.sendtitle').text('Send Request #PO-'+po);
+		$('#send').modal('show');
+	}
+
+	function status_get(id,po) {
+		$.ajax({
+            url : "<?php echo site_url('index.php/welcome/status_mask')?>/"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data){
+                var html = '';
+                var i;               
+                for(i=0; i<data.length; i++){   
+            html += '<li class="list-group-item list-group-item-action list-group-item-success d-flex justify-content-between align-items-center">'+data[i].status+
+                    '<span class="badge badge-primary badge-pill">'+data[i].time+'</span>'+
+                    '</li>';                                    
+                }
+                $('.status-mask2').html(html);        
+				$('.statustitle').text('Status PO# - '+po);
+				$('.statusform').attr('action','<?php echo base_url('admin/addstatus_mask/') ?>'+id);				
+				$('#status').modal('show');
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+                alert('Error get data from ajax');
+              }
+        });
+
 	}
 </script>

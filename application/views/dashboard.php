@@ -95,6 +95,12 @@
                                 <p>Recut Mask</p>
                             </a>
                         </li>
+                        <li class="nav-item <?php if($this->uri->segment(2) == 'request_apparel'){echo 'active';} ?>">
+                            <a href="<?php echo base_url('admin/request_apparel') ?>">
+                                <i class="la la-cut"></i>
+                                <p>Recut Apparel</p>
+                            </a>
+                        </li>
                         <?php if ($this->session->userdata('level')== "CUTTING") { ?>
                         <li class="nav-item <?php if($this->uri->segment(2) == 'user'){echo 'active';} ?>">
                             <a href="<?php echo base_url('admin/user') ?>">
@@ -133,6 +139,7 @@
   <script src="<?php echo base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script>
      $('#example').DataTable();   
+     $('#example2').DataTable();   
       $(document).ajaxStart(function(){
         $("#wait").css("display", "block");
     });

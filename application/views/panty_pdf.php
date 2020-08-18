@@ -84,7 +84,9 @@
         <div class="col-xs-3">                                
             F - Fabric Damage <br>                          
             S - Sewing Damage <br>                          
-            C - Cutting Damage                                                          
+            C - Cutting Damage <br>
+            AC - All Components <br>
+            P - Panels                                                         
         </div>
 
     </div>
@@ -98,30 +100,38 @@
                 <td>SIDE</td>
                 <td>INNER</td>
                 <td>REMARKS</td>                            
+                <td>TYPE</td>                            
             </tr>
         </thead>
         <tbody>
             <?php foreach ($detail as $data) { ?>
                 <tr class="text-center">
                     <td><?php echo $data->size ?></td>
-                    <td><?php echo $data->gusset ?></td>
-                    <td><?php echo $data->front ?></td>
-                    <td><?php echo $data->back ?></td>
-                    <td><?php echo $data->side ?></td>
-                    <td><?php echo $data->inners ?></td>
+                    <td><?php echo $data->gusset ?><br><?php echo $data->gusset_shape ?></td>
+                    <td><?php echo $data->front ?><br><?php echo $data->front_shape ?></td>
+                    <td><?php echo $data->back ?><br><?php echo $data->back_shape ?></td>
+                    <td><?php echo $data->side ?><br><?php echo $data->side_shape ?></td>
+                    <td><?php echo $data->inners ?><br><?php echo $data->inners_shape ?></td>
                     <td><?php echo $data->remarks ?></td>
+                    <td><?php echo $data->type ?></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
     <div class="row">
-        <div class="col-xs-3">            
+        <div class="col-xs-2">            
             Total Gusset : <span class="text-danger"><?php echo $total->totgusset ?></span><br>
             Total Front : <span class="text-danger"><?php echo $total->totfront ?></span><br>
             Total Back : <span class="text-danger"><?php echo $total->totback ?></span><br>
             Total Side : <span class="text-danger"><?php echo $total->totside ?></span><br>
             Total Inner : <span class="text-danger"><?php echo $total->totinners ?></span>                                          
         </div>
+        <div class="col-xs-3" style="font-size: 11px;">
+            <u class="text-primary">STATUS</u><br>
+            <?php foreach ($status as $data) {
+                echo '- '.$data->time.' ~ '.$data->status.'<br>';
+            } ?>
+        </div>            
         <div class="col-xs-2">            
             <div class="text-center">
                 <p><u>Check by QA</u></p>
@@ -130,35 +140,41 @@
                     if ($get->check_qa == 1) {
                         echo "APPROVED";
                     }else{
-                        echo "(empty)";
+                        echo "&nbsp;";
                     }
                     ?>
                 </span>
-            </div>                
-        </div>
-        <div class="col-xs-2">                        
-            <div class="text-center">
                 <p><u>Check by VSE</u></p>
                 <span class="text-danger" style="font-size: 16px; font-weight: bold;">
                     <?php 
                     if ($get->check_vse == 1) {
                         echo "APPROVED";
                     }else{
-                        echo "(empty)";
+                        echo "&nbsp;";
                     }
                     ?>
                 </span>
-            </div>                        
+            </div>                
         </div>
-        <div class="col-xs-2">                        
+        <div class="col-xs-3">                        
             <div class="text-center">
+                <p><u>Check by LAB</u></p>
+                <span class="text-danger" style="font-size: 16px; font-weight: bold;">
+                    <?php 
+                    if ($get->check_lab == 1) {
+                        echo "APPROVED";
+                    }else{
+                        echo "&nbsp;";
+                    }
+                    ?>
+                </span>
                 <p><u>Check by CUTTING</u></p>
                 <span class="text-danger" style="font-size: 16px; font-weight: bold;">
                     <?php 
                     if ($get->check_cutting == 1) {
                         echo "APPROVED";
                     }else{
-                        echo "(empty)";
+                        echo "&nbsp;";
                     }
                     ?>
                 </span>

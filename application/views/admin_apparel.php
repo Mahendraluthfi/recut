@@ -4,7 +4,7 @@
         font-size: 11px;
     }
 </style>
- <h4 class="page-title">Request Bra</h4>
+ <h4 class="page-title">Request Apparel</h4>
  <div class="row">
  	<div class="col-lg-12"> 		
 	 	<div class="card shadow mb-4">
@@ -13,7 +13,7 @@
 	          		<h6 class="m-0 font-weight-bold text-primary">Data Request</h6>	        		
 	        	</div>
 	          	<div class="float-right">
-	          		<button type="button" class="btn btn-success btn-sm" onclick="sent()"><i class="la la-check"></i> Sent</button>	          		
+	          		<button type="button" class="btn btn-success btn-sm" onclick="sent()"><i class="la la-check"></i> Sent</button>	          			
 	          		<button type="button" class="btn btn-primary btn-sm" onclick="xls()"><i class="la la-file-excel-o"></i> Export</button>
 	          	</div>
 	        </div>
@@ -75,19 +75,19 @@
 								<td>
 									<?php 
 									if ($data->check_qa == 0 && $this->session->userdata('level') == "QA") {
-										echo "<a href='".base_url('admin/validate_bra/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
+										echo "<a href='".base_url('admin/validate_apparel/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
 									}?>
 									<?php 
 									if ($data->check_cutting == 0 && $data->check_qa == 1 && $this->session->userdata('level') == "CUTTING") {
-										echo "<a href='".base_url('admin/validate_bra/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";		
+										echo "<a href='".base_url('admin/validate_apparel/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";		
 									}?>
 									<?php 
 									if ($data->check_lab == 0 && $data->check_qa == 1 && $this->session->userdata('level') == "LAB") {
-										echo "<a href='".base_url('admin/validate_bra/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";										
+										echo "<a href='".base_url('admin/validate_apparel/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";										
 									}?>
 									<?php 
 									if ($data->check_vse == 0 && $data->check_qa == 1 && $this->session->userdata('level') == "VSE") {
-										echo "<a href='".base_url('admin/validate_bra/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
+										echo "<a href='".base_url('admin/validate_apparel/').$data->order_id."' class='btn btn-danger btn-sm' data-original-title='Validate' data-toggle='tooltip' onclick='return confirm(\"Are you sure ?\")'><i class='la la-check'></i></a>";
 									}?>
 									<button onclick="status_get('<?php echo $data->order_id ?>','<?php echo $data->po ?>')" class="btn btn-info btn-sm" data-original-title="Add Status" data-toggle="tooltip"><i class="la la-pencil-square" ></i></button>
 									<button type="button" onclick="detail('<?php echo $data->order_id ?>')" class="btn btn-warning btn-sm text-white" data-original-title="Detail" data-toggle="tooltip"><i class="la la-search-plus"></i>
@@ -95,7 +95,7 @@
 									<?php if ($this->session->userdata('level')=="CUTTING") { ?>
 										<button onclick="send_item('<?php echo $data->order_id ?>','<?php echo $data->po ?>')" class="btn btn-success btn-sm" data-original-title="Send" data-toggle="tooltip"><i class="la la-cart-arrow-down"></i></button>
 									<?php } ?>
-									<a href="<?php echo base_url('admin/download_bra/'.$data->order_id) ?>" target="_blank" class="btn btn-secondary btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
+									<a href="<?php echo base_url('admin/download_apparel/'.$data->order_id) ?>" target="_blank" class="btn btn-secondary btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
 								</td>
 	        				</tr>
 	        				<?php } ?>
@@ -113,7 +113,7 @@
     	<div class="modal-header">
 			<h5 class="modal-title">Sent Record</h5>
 		</div>
-		<div class="modal-body">
+		<div class="modal-body">			
 	        	<div class="table-responsive">
 	        		<table class="table table-bordered" id="example2">
 	        			<thead>
@@ -168,17 +168,18 @@
 										<span class="badge badge-success">Cutting</span>
 									<?php } ?>                            		
                     			</td>
-								<td>									
+								<td>																	
 									<button type="button" onclick="detail('<?php echo $data->order_id ?>')" class="btn btn-warning btn-sm text-white" data-original-title="Detail" data-toggle="tooltip"><i class="la la-search-plus"></i>
-									</button>									
-									<a href="<?php echo base_url('admin/download_bra/'.$data->order_id) ?>" target="_blank" class="btn btn-secondary btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
+									</button>
+									<a href="<?php echo base_url('admin/download_apparel/'.$data->order_id) ?>" target="_blank" class="btn btn-secondary btn-sm text-white" data-original-title="Print" data-toggle="tooltip"><i class="la la-print"></i></a>
 								</td>
 	        				</tr>
 	        				<?php } ?>
 	        			</tbody>
 	        		</table>
 	        	</div>
-	        </div>
+	        
+		</div>
     </div>
   </div>
 </div>
@@ -273,42 +274,57 @@
 	  						</div>
 	  						F - Fabric Damage <br>      					
 	      					S - Sewing Damage <br>      					
-	      					C - Cutting Damage <br>                
-                    		AC - All Components <br>                
-                    		P - Panels                  					
+	      					C - Cutting Damage <br>
+                			AC - All Components <br>
+                			P - Panels            					
 	  					</div>
 	  				</div>
 				</div><hr>
 				<table class="table table-bordered table-sm">
   					<thead>
   						<tr class="text-center">
-			                <th>SIZE</th>
-			                <th>WING</th>
-			                <th>CF</th>
-			                <th>CUP</th>
-			                <th>INNER</th>
-			                <th>MESH</th>
-			                <th>LINER</th>
-			                <th>REMARKS</th>               
-			                <th>TYPE</th>               
-			              </tr>
+		                    <th>SIZE</th>
+		                    <th>PANEL WAIST BAND NAME</th>                                      
+		                    <th>INNER</th>                                      
+		                    <th>OUTER</th>                                      
+		                    <th>QTY</th>                                        
+		                    <th>REMARKS</th>
+		                    <th>TYPE</th>                                       
+		                </tr>
   					</thead>
   					<tbody id="show_data">
   						
   					</tbody>
-  				</table><hr>
+  				</table>
+  				 <table class="table table-bordered">
+		              <thead>
+		                  <tr class="text-center">
+		                      <th>SIZE</th>
+		                      <th>PANEL BODY BAND NAME</th>                                       
+		                      <th>LEFT</th>                                       
+		                      <th>RIGHT</th>                                      
+		                      <th>QTY</th>                                        
+		                      <th>REMARKS</th>
+		                      <th>TYPE</th>                                       
+		                  </tr>
+		              </thead>
+		              <tbody id="show_data2">
+		                  
+		              </tbody>
+		          </table>
+  				<hr>
   				<div class="row clearfix row-relative">
-		            <div class="col-md-3 col-lg-3">
-		              Total Wing : <span class="twing text-danger"></span><br>
-		              Total CF : <span class="tcf text-danger"></span><br>
-		              Total Cup : <span class="tcup text-danger"></span><br>
-		              Total Inner : <span class="tinners text-danger"></span><br>
-		              Total Mesh : <span class="tmesh text-danger"></span><br>            
-		              Total Liner : <span class="tliner text-danger"></span>            
+  					<div class="col-md-3 col-lg-3">
+		                Full Garment Waist : <span class="total_waist text-danger"></span><br>
+		                Total Inner : <span class="total_inners text-danger"></span><br>
+		                Total Outer : <span class="total_outers text-danger"></span><br>
+		                Full Garment Body : <span class="total_waist text-danger"></span><br>
+		                Total Left : <span class="total_lefts text-danger"></span><br>
+		                Total Right : <span class="total_rights text-danger"></span><br>
 		            </div>
-		            <div class="col-md-3 col-lg-3 col-border">
+  					<div class="col-md-3 col-lg-3 col-border">
 		                <center>Status</center>                
-		                <ul class="list-group status-bra" style="padding-left: 10px;">
+		                <ul class="list-group status-apparel" style="padding-left: 10px;">
 		                    
 		                </ul>
 		            </div>
@@ -331,8 +347,8 @@
 		                        </div>                       
 		                    </div>                    
 		                </div>                
-		            </div>            
-		        </div>
+		            </div>  
+  				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
@@ -348,7 +364,7 @@
 				<h4 class="modal-title">Export Data</h4>
 			</div>
 			<div class="modal-body">
-				<?php echo form_open('admin/braexcel'); ?>
+				<?php echo form_open('admin/apparelexcel'); ?>
 				<div class="form-group">
 					<label for="datestart">Date Start</label>
 					<input type="date" class="form-control form-control-sm" id="datestart" placeholder="Date Start" name="ds">
@@ -396,7 +412,7 @@
 				<h6 class="modal-title statustitle"></h6>
 			</div>
 			<div class="modal-body">
-				<ul class="list-group status-bra2" style="padding-left: 10px;"></ul>
+				<ul class="list-group status-apparel2" style="padding-left: 10px;"></ul>
 				<?php echo form_open('', array('class' => 'statusform')); ?>
 				<div class="form-group text-center">
 					<input type="hidden" name="vid">
@@ -412,7 +428,7 @@
 <script>
 	function detail(id) {
 		$.ajax({
-            url : "<?php echo site_url('index.php/welcome/get_bra')?>/"+id,
+            url : "<?php echo site_url('index.php/welcome/get_apparel')?>/"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data){
@@ -428,7 +444,7 @@
             	$('.colour').text(data.colour);
             	$('.shift').text(data.shift);
             	$('.estimated').text(data.time_estimated);
-            	$('.remarks').text("Remarks: "+data.remarks);            	
+            	$('.remarks').text("Remarks: "+data.remarks);            	            	
             	if (data.check_qa == 1) {
             		$('.img-qa').attr('src','<?php echo base_url('dist/img/approved.png') ?>')
             	}else{
@@ -457,7 +473,7 @@
               }
         });
 		$.ajax({
-            url : "<?php echo site_url('index.php/welcome/view_bra')?>/"+id,
+            url : "<?php echo site_url('index.php/welcome/view_apparel')?>/"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data){
@@ -465,17 +481,15 @@
                 var i;
                 var no = 1;
                 for(i=0; i<data.length; i++){   
-                      html += "<tr class='text-center'>"+
-                    "<td>"+data[i].size+"</td>"+
-                    "<td>"+data[i].wing+"<br>"+data[i].wing_shape+"</td>"+
-                    "<td>"+data[i].cf+"<br>"+data[i].cf_shape+"</td>"+
-                    "<td>"+data[i].cup+"<br>"+data[i].cup_shape+"</td>"+
-                    "<td>"+data[i].inners+"<br>"+data[i].inners_shape+"</td>"+
-                    "<td>"+data[i].mesh+"<br>"+data[i].mesh_shape+"</td>"+
-                    "<td>"+data[i].liner+"<br>"+data[i].liner_shape+"</td>"+
-                    "<td>"+data[i].remarks+"</td>"+
-                    "<td>"+data[i].type+"</td>"+                
-                    "</tr>";                                     
+                    html += "<tr class='text-center'>"+
+                        "<td>"+data[i].size+"</td>"+
+                        "<td>"+data[i].waist+"</td>"+                       
+                        "<td>"+data[i].inners+"</td>"+                      
+                        "<td>"+data[i].outers+"</td>"+                      
+                        "<td>"+data[i].qty+"</td>"+                     
+                        "<td>"+data[i].remarks+"</td>"+
+                        "<td>"+data[i].type+"</td>"+                        
+                        "</tr>";                                       
                 }
                 $('#show_data').html(html);        
                 console.log(data.length);      
@@ -486,16 +500,26 @@
         });
 
         $.ajax({
-            url : "<?php echo site_url('index.php/welcome/total_bra')?>/"+id,
+            url : "<?php echo site_url('index.php/welcome/view_apparel2')?>/"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data){
-            	$('.twing').text(data.twing);
-                $('.tcf').text(data.tcf);
-                $('.tcup').text(data.tcup);
-                $('.tinners').text(data.tinners);
-                $('.tmesh').text(data.tmesh);
-                $('.tliner').text(data.tliner);
+                var html = '';
+                var i;
+                var no = 1;
+                for(i=0; i<data.length; i++){   
+                    html += "<tr class='text-center'>"+
+                        "<td>"+data[i].size+"</td>"+
+                        "<td>"+data[i].body+"</td>"+                        
+                        "<td>"+data[i].lefts+"</td>"+                       
+                        "<td>"+data[i].rights+"</td>"+                      
+                        "<td>"+data[i].qty+"</td>"+                     
+                        "<td>"+data[i].remarks+"</td>"+
+                        "<td>"+data[i].type+"</td>"+                        
+                        "</tr>";                                       
+                }
+                $('#show_data2').html(html);        
+                // console.log(data.length);      
             },
             error: function (jqXHR, textStatus, errorThrown){
                 alert('Error get data from ajax');
@@ -503,7 +527,25 @@
         });
 
         $.ajax({
-            url : "<?php echo site_url('index.php/welcome/status_bra')?>/"+id,
+            url : "<?php echo site_url('index.php/welcome/total_apparel')?>/"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data){
+                $('.total_waist').text(data.total_waist);
+                $('.total_body').text(data.total_body);
+                $('.total_inners').text(data.total_inners);
+                $('.total_outers').text(data.total_outers);
+                $('.total_lefts').text(data.total_lefts);
+                $('.total_rights').text(data.total_rights);
+                // console.log(data);              
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+                alert('Error get data from ajax');
+              }
+        });
+
+        $.ajax({
+            url : "<?php echo site_url('index.php/welcome/status_apparel')?>/"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data){
@@ -514,7 +556,7 @@
                     '<span class="badge badge-primary badge-pill">'+data[i].time+'</span>'+
                     '</li>';                                    
                 }
-                $('.status-bra').html(html);        
+                $('.status-apparel').html(html);        
             },
             error: function (jqXHR, textStatus, errorThrown){
                 alert('Error get data from ajax');
@@ -531,14 +573,14 @@
 	}
 
 	function send_item(id,po) {
-		$('.frmsent').attr('action','<?php echo base_url('admin/senditem/order_bra/') ?>'+id);
+		$('.frmsent').attr('action','<?php echo base_url('admin/senditem/order_apparel/') ?>'+id);
 		$('.sendtitle').text('Send Request #PO-'+po);
 		$('#send').modal('show');
 	}
 
 	function status_get(id,po) {
 		$.ajax({
-            url : "<?php echo site_url('index.php/welcome/status_bra')?>/"+id,
+            url : "<?php echo site_url('index.php/welcome/status_apparel')?>/"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data){
@@ -549,9 +591,9 @@
                     '<span class="badge badge-primary badge-pill">'+data[i].time+'</span>'+
                     '</li>';                                    
                 }
-                $('.status-bra2').html(html);        
+                $('.status-apparel2').html(html);        
 				$('.statustitle').text('Status PO# - '+po);
-				$('.statusform').attr('action','<?php echo base_url('admin/addstatus_bra/') ?>'+id);				
+				$('.statusform').attr('action','<?php echo base_url('admin/addstatus_apparel/') ?>'+id);				
 				$('#status').modal('show');
             },
             error: function (jqXHR, textStatus, errorThrown){
@@ -559,5 +601,5 @@
               }
         });
 
-	}	
+	}
 </script>

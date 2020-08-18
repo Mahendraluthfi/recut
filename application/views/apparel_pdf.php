@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Request Bra</title>
+<title>Request Apparel</title>
     <!-- <link rel="stylesheet" href="/var/www/html/ppnotes/assets/css/pdf/bootstrap.min.css">
     <script src="/var/www/html/ppnotes/assets/css/pdf/bootstrap.min.js"></script> -->
 
@@ -46,10 +46,10 @@
 <body>
     <div class="row">
         <div class="col-xs-9">
-            <legend>Recut Detail Sheet - Bra</legend>
+            <legend>Recut Detail Sheet - Apparel</legend>
         </div>
         <div class="col-xs-2 text-right text-danger">
-            <?php echo '#BRA_REQ-'.$get->order_id; ?>
+            <?php echo '#APPAREL_REQ-'.$get->order_id; ?>
         </div>
     </div>
     <div class="row">
@@ -92,42 +92,64 @@
     </div>
     <table class="table table-bordered table-sm">
         <thead>
-            <tr class="text-center active">
+            <tr class="text-center active" style="font-size: 12px;">
                 <td>SIZE</td>
-                <td>WING</td>
-                <td>CF</td>
-                <td>CUP</td>
-                <td>INNER</td>
-                <td>MESH</td>
-                <td>LINER</td>
-                <td>REMARKS</td>                        
-                <td>TYPE</td>                        
+                <td>PANEL WAIST BAND NAME</td>                                      
+                <td>INNER</td>                                      
+                <td>OUTER</td>                                      
+                <td>QTY</td>                                        
+                <td>REMARKS</td>
+                <td>TYPE</td>                                       
             </tr>
         </thead>
         <tbody>
             <?php foreach ($detail as $data) { ?>
                 <tr class="text-center">
                 <td><?php echo $data->size ?></td>
-                <td><?php echo $data->wing ?><br><?php echo $data->wing_shape ?></td>
-                <td><?php echo $data->cf ?><br><?php echo $data->cf_shape ?></td>
-                <td><?php echo $data->cup ?><br><?php echo $data->cup_shape ?></td>
-                <td><?php echo $data->inners ?><br><?php echo $data->inners_shape ?></td>
-                <td><?php echo $data->mesh ?><br><?php echo $data->mesh_shape ?></td>
-                <td><?php echo $data->liner ?><br><?php echo $data->liner_shape ?></td>
-                <td><?php echo $data->remarks ?></td>                     
+                <td><?php echo $data->waist ?></td>
+                <td><?php echo $data->inners ?></td>
+                <td><?php echo $data->outers ?></td>
+                <td><?php echo $data->qty ?></td>
+                <td><?php echo $data->remarks ?></td>
+                <td><?php echo $data->type ?></td>                     
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr class="text-center active" style="font-size: 12px;">
+              <td>SIZE</td>
+              <td>PANEL BODY BAND NAME</td>                                       
+              <td>LEFT</td>                                       
+              <td>RIGHT</td>                                      
+              <td>QTY</td>                                        
+              <td>REMARKS</td>
+              <td>TYPE</td>                                       
+          </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($detail2 as $data) { ?>
+                <tr class="text-center">
+                <td><?php echo $data->size ?></td>
+                <td><?php echo $data->body ?></td>
+                <td><?php echo $data->lefts ?></td>
+                <td><?php echo $data->rights ?></td>
+                <td><?php echo $data->qty ?></td>
+                <td><?php echo $data->remarks ?></td>
                 <td><?php echo $data->type ?></td>                     
                 </tr>
             <?php } ?>
         </tbody>
     </table>
     <div class="row">
-        <div class="col-xs-2">            
-              Total Wing : <span class="twing text-danger"><?php echo $total->twing ?></span><br>
-              Total CF : <span class="tcf text-danger"><?php echo $total->tcf ?></span><br>
-              Total Cup : <span class="tcup text-danger"><?php echo $total->tcup ?></span><br>
-              Total Inner : <span class="tinners text-danger"><?php echo $total->tinners ?></span><br>
-              Total Mesh : <span class="tmesh text-danger"><?php echo $total->tmesh ?></span><br>            
-              Total Liner : <span class="tliner text-danger"><?php echo $total->tliner ?></span>                                          
+        <div class="col-xs-2" style="font-size: 11px;">
+            Full Garment Waist : <span class="total_waist text-danger"><?php echo $total->total_waist ?></span><br>
+            Total Inner : <span class="total_inners text-danger"><?php echo $total->total_inners ?></span><br>
+            Total Outer : <span class="total_outers text-danger"><?php echo $total->total_outers ?></span><br>
+            Full Garment Body : <span class="total_waist text-danger"><?php echo $total2->total_body ?></span><br>
+            Total Left : <span class="total_lefts text-danger"><?php echo $total2->total_lefts ?></span><br>
+            Total Right : <span class="total_rights text-danger"><?php echo $total2->total_rights ?></span><br>
         </div>
         <div class="col-xs-3" style="font-size: 11px;">
             <u class="text-primary">STATUS</u><br>

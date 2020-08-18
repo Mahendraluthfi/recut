@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Request Bra</title>
+<title>Request Mask</title>
     <!-- <link rel="stylesheet" href="/var/www/html/ppnotes/assets/css/pdf/bootstrap.min.css">
     <script src="/var/www/html/ppnotes/assets/css/pdf/bootstrap.min.js"></script> -->
 
@@ -49,7 +49,7 @@
             <legend>Recut Detail Sheet - Mask</legend>
         </div>
         <div class="col-xs-2 text-right text-danger">
-            <?php echo '#PNTY_REQ-'.$get->order_id; ?>
+            <?php echo '#MASK_REQ-'.$get->order_id; ?>
         </div>
     </div>
     <div class="row">
@@ -107,9 +107,15 @@
         </tbody>
     </table>
     <div class="row">
-        <div class="col-xs-3">            
+        <div class="col-xs-2">            
               Total Main Panel : <span class="twing text-danger"><?php echo $total->tpanel ?></span><br>              
         </div>
+        <div class="col-xs-3" style="font-size: 11px;">
+            <u class="text-primary">STATUS</u><br>
+            <?php foreach ($status as $data) {
+                echo '- '.$data->time.' ~ '.$data->status.'<br>';
+            } ?>
+        </div>            
         <div class="col-xs-2">            
             <div class="text-center">
                 <p><u>Check by QA</u></p>
@@ -118,35 +124,41 @@
                     if ($get->check_qa == 1) {
                         echo "APPROVED";
                     }else{
-                        echo "(empty)";
+                        echo "&nbsp;";
                     }
                     ?>
                 </span>
-            </div>                
-        </div>
-        <div class="col-xs-2">                        
-            <div class="text-center">
                 <p><u>Check by VSE</u></p>
                 <span class="text-danger" style="font-size: 16px; font-weight: bold;">
                     <?php 
                     if ($get->check_vse == 1) {
                         echo "APPROVED";
                     }else{
-                        echo "(empty)";
+                        echo "&nbsp;";
                     }
                     ?>
                 </span>
-            </div>                        
+            </div>                
         </div>
-        <div class="col-xs-2">                        
+        <div class="col-xs-3">                        
             <div class="text-center">
+                <p><u>Check by LAB</u></p>
+                <span class="text-danger" style="font-size: 16px; font-weight: bold;">
+                    <?php 
+                    if ($get->check_lab == 1) {
+                        echo "APPROVED";
+                    }else{
+                        echo "&nbsp;";
+                    }
+                    ?>
+                </span>
                 <p><u>Check by CUTTING</u></p>
                 <span class="text-danger" style="font-size: 16px; font-weight: bold;">
                     <?php 
                     if ($get->check_cutting == 1) {
                         echo "APPROVED";
                     }else{
-                        echo "(empty)";
+                        echo "&nbsp;";
                     }
                     ?>
                 </span>
